@@ -48,22 +48,31 @@ namespace WcfHotelService.Common
 
         // parser errors
         public const String CONST_EXCEPTION_JSON_NOT_PARSEABLE = "Error_1001";
+        public const String CONST_EXCEPTION_JSON_NOT_PARSEABLE_DESCRIPTION = "JSON is not parseable";
 
         // validation errors
         public const String CONST_EXCEPTION_SEARCHABLE_PARAMETER_NOT_VALID = "Error_1002";
+        public const String CONST_EXCEPTION_SEARCHABLE_PARAMETER_NOT_VALID_DESCRIPTION = "Searchable parameters are not properly defined.";
         public const String CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE = "Error_1003";
+        public const String CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE_DESCRIPTION = "From price is greater thab To price.";
         public const String CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE = "Error_1004";
+        public const String CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE_DESCRIPTION = "From date is grater than To date.";
 
         // query errors
         public const String CONST_EXCEPTION_QUERY_ERROR = "Error_1005";
+        public const String CONST_EXCEPTION_QUERY_ERROR_DESCRIPTION = "Some problem happened in query.";
         public const String CONST_EXCEPTION_SORT_NOT_DEFINED = "Error_1006";
+        public const String CONST_EXCEPTION_SORT_NOT_DEFINED_DESCRIPTION = "Ordering is not defined properly.";
         public const String CONST_EXCEPTION_QUERY_ERROR_REMOVING_IRRELVANT_ENTRIES = "Error_1007";
-
+        public const String CONST_EXCEPTION_QUERY_ERROR_REMOVING_IRRELVANT_ENTRIES_DESCRIPTION = "Query countered issue while removing irrelevant dates availability.";
+        
         // Hotel API returns empty data
         public const String CONST_API_DO_NOT_CONTAIN_OFFERS = "Error_1008";
+        public const String CONST_API_DO_NOT_CONTAIN_OFFERS_DESCRIPTION = "Source does not contain any offer.";
 
         // Hotel API returns empty data
         public const String CONST_API_NOT_ACCESSIBLE = "Error_1009";
+        public const String CONST_API_NOT_ACCESSIBLE_DESCRIPTION = "API is not accessible.";
 
         #endregion
 

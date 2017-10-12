@@ -9,7 +9,9 @@ using WcfHotelService.Common.Entities;
 namespace WcfHotelService.Common.Exceptions
 {
     /// <summary>
-    /// 
+    /// Custom exception class is defined to serve for multiple purposes
+    /// Along side of holding stack trace it can also hold multiple user friendly message
+    /// it will also be used for server side validation to hold multiple messages
     /// </summary>
     public class CustomException : System.Exception
     {

@@ -10,6 +10,10 @@ using WcfHotelService.Common.Exceptions;
 
 namespace WcfHotelService.Common.Responses
 {
+    /// <summary>
+    /// this class will be returned for all operations performed on hotel service WCF
+    /// It will hold operation success or failure code and custom messages in case of any failures or warnings along data
+    /// </summary>
     [DataContract]
     public class ResponseSearch
     {

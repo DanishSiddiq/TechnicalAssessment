@@ -21,12 +21,15 @@ using WcfHotelService.Common.Entities;
 
 namespace WcfHotelService.Service
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "HotelSearchService" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select HotelSearchService.svc or HotelSearchService.svc.cs at the Solution Explorer and start debugging.
+    /// <summary>
+    /// Hotel service class implement contract for all hotel related services
+    /// Currently it is used for searching hotels by pulling JSON information from another source but it can be extended for further operations
+    /// </summary>
     public class HotelSearchService : IHotelSearchService
     {
         /// <summary>
-        /// keeping optional parameters to provide flexibility of initialization and searching
+        /// keeping optional parameters to provide flexibility of searching
+        /// JSON returned from URI is transformed into more readable object formats to perform operations easily
         /// </summary>
         /// <param name="hotelName"></param>
         /// <param name="destination"></param>
@@ -35,8 +38,14 @@ namespace WcfHotelService.Service
         /// <param name="dateFrom"></param>
         /// <param name="dateTo"></param>
         /// <returns></returns>        
-        public Common.Responses.ResponseSearch Search(String hotelName = null, String destination = null, Double? rangeFrom = null, Double? rangeTo = null
-            , DateTime? dateFrom = null, DateTime? dateTo = null, String sortByName = null, String sortByPrice = null)
+        public Common.Responses.ResponseSearch Search(String hotelName = null
+            , String destination = null
+            , Double? rangeFrom = null
+            , Double? rangeTo = null
+            , DateTime? dateFrom = null
+            , DateTime? dateTo = null
+            , String sortByName = null
+            , String sortByPrice = null)
         {
             // TODO: do something with the model
             List<Hotel> lstHotel = null;
@@ -91,7 +100,10 @@ namespace WcfHotelService.Service
                         {
                             responseSearch.LstCustomMessage = new List<CustomMessage>();
                         }
-                        responseSearch.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_API_DO_NOT_CONTAIN_OFFERS });
+                        responseSearch.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_API_DO_NOT_CONTAIN_OFFERS
+                        ,
+                                                                                Message = Constants.CONST_API_DO_NOT_CONTAIN_OFFERS_DESCRIPTION
+                        });
                     }
 
                     // data
@@ -108,7 +120,7 @@ namespace WcfHotelService.Service
                 if (ex.LstCustomMessage.IsNull())
                 {
                     ex.LstCustomMessage = new List<CustomMessage>();
-                    ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_API_NOT_ACCESSIBLE });
+                    ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_API_NOT_ACCESSIBLE, Message = Constants.CONST_API_NOT_ACCESSIBLE_DESCRIPTION });
                 }
 
                 // message lists in case of failure
@@ -121,9 +133,5 @@ namespace WcfHotelService.Service
             return responseSearch;
         }
 
-
-        private void ParseMessages(List<Common.Entities.CustomMessage> lstCustomMessages)
-        {
-        }
     }
 }

@@ -70,7 +70,7 @@ namespace WcfHotelService.BAL.Business
                 if (ex.LstCustomMessage.IsNull())
                 {
                     ex.LstCustomMessage = new List<CustomMessage>();
-                    ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_QUERY_ERROR });
+                    ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_QUERY_ERROR, Message = Constants.CONST_EXCEPTION_QUERY_ERROR_DESCRIPTION });
                 }
 
                 throw ex;
@@ -99,7 +99,10 @@ namespace WcfHotelService.BAL.Business
                 if (ex.LstCustomMessage.IsNull())
                 {
                     ex.LstCustomMessage = new List<CustomMessage>();
-                    ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_QUERY_ERROR_REMOVING_IRRELVANT_ENTRIES });
+                    ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_QUERY_ERROR_REMOVING_IRRELVANT_ENTRIES
+                    ,
+                                                                Message = Constants.CONST_EXCEPTION_QUERY_ERROR_REMOVING_IRRELVANT_ENTRIES_DESCRIPTION
+                    });
                 }
 
                 throw ex;
@@ -187,7 +190,7 @@ namespace WcfHotelService.BAL.Business
                 {
                     ex.LstCustomMessage = new List<CustomMessage>();
                 }
-                ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_SORT_NOT_DEFINED });
+                ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_SORT_NOT_DEFINED, Message = Constants.CONST_EXCEPTION_SORT_NOT_DEFINED_DESCRIPTION });
 
 
                 throw ex;
@@ -213,7 +216,10 @@ namespace WcfHotelService.BAL.Business
                 if (rangeFrom.Value > rangeTo.Value)
                 {
                     lstCustomMessage = new List<CustomMessage>();
-                    lstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE });
+                    lstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE
+                                                            , 
+                                                            Message = Constants.CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE_DESCRIPTION
+                    });
                 }
             }
 
@@ -227,7 +233,10 @@ namespace WcfHotelService.BAL.Business
                         lstCustomMessage = new List<CustomMessage>();
                     }
 
-                    lstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE });
+                    lstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE
+                    ,
+                                                             Message = Constants.CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE_DESCRIPTION
+                    });
                 }
             }
 
@@ -307,6 +316,6 @@ namespace WcfHotelService.BAL.Business
         }
 
         #endregion
-    
+           
     }
 }

@@ -14,7 +14,8 @@ using System.Globalization;
 namespace WcfHotelService.Common
 {
     /// <summary>
-    /// 
+    /// This class will hold gneralize methods which can be used accross projects with out any specific strong bindings
+    /// All helpful and frequently used methods will be define here
     /// </summary>
     public class Utility
     {
@@ -81,7 +82,7 @@ namespace WcfHotelService.Common
                     ex.LstCustomMessage = new List<CustomMessage>();
                 }
 
-                ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_QUERY_ERROR });
+                ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_QUERY_ERROR, Message = Constants.CONST_EXCEPTION_QUERY_ERROR_DESCRIPTION });
                 throw ex;
             }
 
