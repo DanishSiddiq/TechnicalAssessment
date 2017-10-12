@@ -48,11 +48,12 @@
     <Compile Include="Entities\NotGenerated\Availability.cs" />
     <Compile Include="Entities\NotGenerated\Hotel.cs" />
     <Compile Include="Entities\NotGenerated\IEntitiesBase.cs" />
+    <Compile Include="Entities\Requests\RequestHotel.cs" />
+    <Compile Include="Entities\Responses\ResponseHotel.cs" />
     <Compile Include="Enums\CommonEnums.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Extensions\CustomExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Responses\ResponseSearch.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup />

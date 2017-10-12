@@ -16,15 +16,19 @@ namespace WcfHotelService.Service
     [ServiceContract(SessionMode = SessionMode.NotAllowed)] 
     public interface IHotelSearchService
     {
-        [WebInvoke(UriTemplate = "/search", Method = "POST", BodyStyle = WebMessageBodyStyle.WrappedRequest, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+
+        [OperationContract,
+         WebGet(UriTemplate = "/echo/{echoString}",
+         ResponseFormat = WebMessageFormat.Json)]
+        String Echo(String echoString);
+
         [OperationContract]
-        Common.Responses.ResponseSearch Search(String hotelName = null
-                        , String destination = null
-                        , Double? rangeFrom = null
-                        , Double? rangeTo = null
-                        , DateTime? dateFrom = null
-                        , DateTime? dateTo = null
-                        , String sortByName = null
-                        , String sortByPrice = null);
+        [WebInvoke(UriTemplate = "/searching", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ResponseHotel Search(RequestHotel RequestHotel);
+
+        
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/testing", Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
+        ResponseHotel test(CustomMessage customMessage);                        
     }
 }

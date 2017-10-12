@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using System.Runtime.Serialization;
-using WcfHotelService.Common.Entities;
-using WcfHotelService.Common.Exceptions;
 
-namespace WcfHotelService.Common.Responses
+namespace WcfHotelService.Common.Entities
 {
+
     /// <summary>
     /// this class will be returned for all operations performed on hotel service WCF
     /// It will hold operation success or failure code and custom messages in case of any failures or warnings along data
     /// </summary>
-    [DataContract]
-    public class ResponseSearch
+    public class ResponseHotel
     {
         /// <summary>
         /// multiple codes based in response
@@ -33,7 +28,7 @@ namespace WcfHotelService.Common.Responses
         /// to hold multiple messages
         /// </summary>
         [DataMember]
-        public List<CustomMessage> LstCustomMessage
+        public List<CustomMessage> Messages
         {
             get;
             set;
@@ -43,7 +38,7 @@ namespace WcfHotelService.Common.Responses
         /// 
         /// </summary>
         [DataMember]
-        public IList<Entities.Hotel> LstResponseData
+        public IList<Hotel> Hotels
         {
             get;
             set;

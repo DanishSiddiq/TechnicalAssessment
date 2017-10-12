@@ -1,10 +1,14 @@
 # TechnicalAssessment
 
 
+Testing and Deployment Techniques
+======================================================
+
+
 
 Assumptions & Inmplementation In Development:
 ======================================================
-1. All parameters are considered as optional based in user discretion to provide or not
+1. All parameters are considered as optional based on user discretion to provide valu or not in post call or directly calling from web reference
 
 2. In case no parameter provided then complete data will be returned since client does not want to filter any record
 
