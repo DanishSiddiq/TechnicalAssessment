@@ -20,9 +20,6 @@ namespace WcfHotelService.Common
 
         #endregion
 
-        // range be default value if not provided
-        public const Double CONST_PRICE_RANGE_BY_DEFAULT_VALUE = 0;
-
         #region Hotel json parsin properties
 
         public const String CONST_HOTEL_HOTELS = "hotels";

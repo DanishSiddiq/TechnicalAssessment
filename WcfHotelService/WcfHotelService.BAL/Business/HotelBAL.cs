@@ -51,10 +51,10 @@ namespace WcfHotelService.BAL.Business
 
                     // if nullable values are not provided then it will pass in first OR clause
                     // else it will match data in second clause 
-                    queryableHotels = queryableHotels.Where(h => (hotelName == null || h.Name.ToLower().Contains(hotelName))
-                                            && (destination == null || h.City.ToLower().Contains(destination))
-                                            && (rangeFrom == null || rangeFrom <= Constants.CONST_PRICE_RANGE_BY_DEFAULT_VALUE || h.Price >= rangeFrom)
-                                            && (rangeTo == null || rangeTo <= Constants.CONST_PRICE_RANGE_BY_DEFAULT_VALUE || h.Price <= rangeTo)
+                    queryableHotels = queryableHotels.Where(h => (String.IsNullOrEmpty(hotelName) || h.Name.ToLower().Contains(hotelName))
+                                            && (String.IsNullOrEmpty(destination) || h.City.ToLower().Contains(destination))
+                                            && (rangeFrom == null || h.Price >= rangeFrom)
+                                            && (rangeTo == null || h.Price <= rangeTo)
                                             && (h.Availability.Any(a => (dateFrom == null || a.fromDate <= dateFrom) && (dateTo == null || a.toDate >= dateTo))));
 
                     

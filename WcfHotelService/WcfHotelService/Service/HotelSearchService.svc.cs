@@ -62,21 +62,21 @@ namespace WcfHotelService.Service
                     if (lstHotel != null)
                     {
                         // testing data
-                        /*rangeFrom = 85;
-                        rangeTo = 90;
-                        sortByPrice = "ASC";
-
-                        */
-                        dateFrom = new DateTime(2020, 12, 5);
-                        dateTo = new DateTime(2020, 12, 16);
-
+                        //hotelName = "hotel";
+                        //destination = "MANILA";
+                        //rangeFrom = 90;
+                        //rangeTo = null;
+                        //sortByPrice = "ASC";                        
+                        dateFrom = null; // new DateTime(2020, 12, 5);
+                        dateTo = new DateTime(2020, 12, 10); ; //new DateTime(2020, 12, 16);
+                        
                         // initiating class at requirement
                         hotelBAL = new BAL.Business.HotelBAL();
                         lstHotel = hotelBAL.Search(lstHotel.AsQueryable()
                                                     , String.IsNullOrEmpty(hotelName) ? hotelName : hotelName.ToLower()
                                                     , String.IsNullOrEmpty(destination) ? destination : destination.ToLower()
-                                                    , rangeFrom
-                                                    , rangeTo
+                                                    , (rangeFrom.HasValue && rangeFrom.Value > 0) ? rangeFrom : null
+                                                    , (rangeTo.HasValue && rangeTo.Value > 0) ? rangeTo : null
                                                     , dateFrom
                                                     , dateTo
                                                     , String.IsNullOrEmpty(sortByName) ? sortByName : sortByName.ToLower()

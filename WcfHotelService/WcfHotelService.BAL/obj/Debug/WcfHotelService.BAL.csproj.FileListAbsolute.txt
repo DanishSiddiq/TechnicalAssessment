@@ -7,3 +7,11 @@ E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelServic
 E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\bin\Debug\Newtonsoft.Json.dll
 E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\bin\Debug\WcfHotelService.Common.pdb
 E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\bin\Debug\Newtonsoft.Json.xml
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\bin\Debug\WcfHotelService.BAL.dll
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\bin\Debug\WcfHotelService.BAL.pdb
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\bin\Debug\WcfHotelService.Common.dll
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\bin\Debug\Newtonsoft.Json.dll
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\bin\Debug\WcfHotelService.Common.pdb
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\obj\Debug\WcfHotelService.BAL.csprojResolveAssemblyReference.cache
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\obj\Debug\WcfHotelService.BAL.dll
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.BAL\obj\Debug\WcfHotelService.BAL.pdb
