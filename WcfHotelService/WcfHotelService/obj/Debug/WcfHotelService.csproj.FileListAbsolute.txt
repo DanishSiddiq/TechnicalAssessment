@@ -1,0 +1,11 @@
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\bin\WcfHotelService.dll
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\bin\WcfHotelService.pdb
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\bin\Newtonsoft.Json.dll
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\bin\Newtonsoft.Json.xml
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\obj\Debug\WcfHotelService.csprojResolveAssemblyReference.cache
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\obj\Debug\WcfHotelService.dll
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\obj\Debug\WcfHotelService.pdb
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\bin\WcfHotelService.BAL.dll
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\bin\WcfHotelService.Common.dll
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\bin\WcfHotelService.BAL.pdb
+E:\Danish\1\3\WcfHotelService\TechnicalAssessment\WcfHotelService\WcfHotelService\bin\WcfHotelService.Common.pdb

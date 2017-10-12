@@ -1,0 +1,4 @@
+language: csharp
+solution: WcfHotelService/WcfHotelService.sln
+"os": "windows"
+
