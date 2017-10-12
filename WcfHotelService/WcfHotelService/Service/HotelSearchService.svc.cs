@@ -124,8 +124,6 @@ namespace WcfHotelService.Service
 
         private void ParseMessages(List<Common.Entities.CustomMessage> lstCustomMessages)
         {
-            // how to do it?
-
         }
     }
 }
