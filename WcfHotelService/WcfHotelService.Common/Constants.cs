@@ -49,19 +49,23 @@ namespace WcfHotelService.Common
         public const String CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE = "Error_2003";
         public const String CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE_DESCRIPTION = "From date is grater than To date.";
         public const String CONST_VALIDATION_SORT_BY_NAME_NOT_DEFINED_PROPERLY = "Error_2004";
-        public const String CONST_VALIDATION_SORT_BY_NAME_NOT_DEFINED_PROPERLY_DESCRIPTION = "Order by name parameter is not defined properly. Value can only ASC/asc or DESC/desc.";
+        public const String CONST_VALIDATION_SORT_BY_NAME_NOT_DEFINED_PROPERLY_DESCRIPTION = "Order by name parameter is not defined properly. Value can only be ASC/asc or DESC/desc.";
         public const String CONST_VALIDATION_SORT_BY_PRICE_NOT_DEFINED_PROPERLY = "Error_2005";
-        public const String CONST_VALIDATION_SORT_BY_PRICE_NOT_DEFINED_PROPERLY_DESCRIPTION = "Order by price parameter is not defined properly. Value can only ASC/asc or DESC/desc.";
+        public const String CONST_VALIDATION_SORT_BY_PRICE_NOT_DEFINED_PROPERLY_DESCRIPTION = "Order by price parameter is not defined properly. Value can only be ASC/asc or DESC/desc.";
 
         // validation for GET request that parameter value must be defined properly
         public const String CONST_VALIDATION_PRICE_FROM_NOT_NUMBER = "Error_2006";
         public const String CONST_VALIDATION_PRICE_FROM_NOT_NUMBER_DESCRIPTION = "Price From is not defined correctly. Kindly provide valid number.";
         public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER = "Error_2007";
         public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION = "Price To is not defined correctly. Kindly provide valid number.";
-        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER = "Error_2008";
-        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION = "Price To is not defined correctly. Kindly provide valid number.";
-        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER = "Error_2009";
-        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION = "Price To is not defined correctly. Kindly provide valid number.";
+        public const String CONST_VALIDATION_DATE_FROM_NOT_VALID = "Error_2008";
+        public const String CONST_VALIDATION_DATE_FROM_NOT_VALID_DESCRIPTION = "Date from is not defined correctly. Kindly provide valid date.";
+        public const String CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID = "Error_2009";
+        public const String CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID_DESCRIPTION = "Date from format is not defined correctly. Kindly provide valid date in dd-mm-yyyy format.";
+        public const String CONST_VALIDATION_DATE_TO_NOT_VALID = "Error_2010";
+        public const String CONST_VALIDATION_DATE_TO_NOT_VALID_DESCRIPTION = "Date to is not defined correctly. Kindly provide valid date.";
+        public const String CONST_VALIDATION_DATE_TO_FORMAT_NOT_VALID = "Error_2011";
+        public const String CONST_VALIDATION_DATE_TO_FORMAT_NOT_VALID_DESCRIPTION = "Date to format is not defined correctly. Kindly provide valid date in dd-mm-yyyy format.";
 
         #endregion
 
@@ -96,8 +100,14 @@ namespace WcfHotelService.Common
         public const String CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION = "Internal error happens on server while processing request.";
 
         // Search Parameters are not defined properly
-        public const String CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR = "Error_1010";
+        public const String CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR = "Error_1011";
         public const String CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR_DESCRIPTION = "Search paramaters are not defined properly.";
+
+        #endregion
+
+        #region Regex
+
+        public const String CONST_REGEX_FOR_DD_MM_YYYY = @"^(((((0[1-9])|(1\d)|(2[0-8]))-((0[1-9])|(1[0-2])))|((31-((0[13578])|(1[02])))|((29|30)-((0[1,3-9])|(1[0-2])))))-((20[0-9][0-9]))|(29-02-20(([02468][048])|([13579][26]))))$";
 
         #endregion
 

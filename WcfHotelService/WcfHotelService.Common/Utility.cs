@@ -35,16 +35,15 @@ namespace WcfHotelService.Common
                     return parseJSONIntoHotelData(json);
                 }
             }
-            catch (CustomException cEx)
+            catch (CustomException ex)
             {
                 // detail code for whole messages trail
-                if (cEx.Messages.IsNull())
+                if (ex.Messages.IsNull())
                 {
-                    cEx.Messages = new List<CustomMessage>();
+                    ex.Messages = new List<CustomMessage>();
+                    ex.Messages.Add(new CustomMessage { Code = Constants.CONST_API_NOT_ACCESSIBLE, Message = Constants.CONST_API_NOT_ACCESSIBLE_DESCRIPTION });
                 }
-
-                cEx.Messages.Add(new CustomMessage { Code = Constants.CONST_API_NOT_ACCESSIBLE, Message = Constants.CONST_API_NOT_ACCESSIBLE_DESCRIPTION });
-                throw cEx;
+                throw ex;
             }
             catch (Exception ex)
             {
@@ -100,7 +99,7 @@ namespace WcfHotelService.Common
                                             toDate = DateTime.ParseExact(Convert.ToString(availability[Constants.CONST_HOTEL_AVAILABILITY_TO]), "dd-MM-yyyy", CultureInfo.InvariantCulture)
                                         });
                                     }
-                                }
+                                }                                
 
                                 // only initiate list object to save memory when first instance will be met
                                 if (lstHotel == null)

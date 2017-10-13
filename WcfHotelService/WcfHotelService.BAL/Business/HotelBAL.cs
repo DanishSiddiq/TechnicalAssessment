@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using WcfHotelService.Common;
 using WcfHotelService.Common.Entities;
@@ -42,14 +43,14 @@ namespace WcfHotelService.BAL.Business
                     if (!lstHotel.IsNullOrEmpty())
                     {
                         lstHotel = Search(lstHotel.AsQueryable()
-                                                    , String.IsNullOrEmpty(requestHotel.HotelName) ? requestHotel.HotelName : requestHotel.HotelName.ToLower()
-                                                    , String.IsNullOrEmpty(requestHotel.Destination) ? requestHotel.Destination : requestHotel.Destination.ToLower()
+                                                    , String.IsNullOrEmpty(requestHotel.HotelName) ? requestHotel.HotelName : requestHotel.HotelName
+                                                    , String.IsNullOrEmpty(requestHotel.Destination) ? requestHotel.Destination : requestHotel.Destination
                                                     , (requestHotel.RangeFrom.HasValue && requestHotel.RangeFrom.Value > 0) ? requestHotel.RangeFrom : null
                                                     , (requestHotel.RangeTo.HasValue && requestHotel.RangeTo.Value > 0) ? requestHotel.RangeTo : null
                                                     , requestHotel.DateFrom
                                                     , requestHotel.DateTo
-                                                    , String.IsNullOrEmpty(requestHotel.SortByName) ? requestHotel.SortByName : requestHotel.SortByName.ToLower()
-                                                    , String.IsNullOrEmpty(requestHotel.SortByPrice) ? requestHotel.SortByPrice : requestHotel.SortByPrice.ToLower());
+                                                    , String.IsNullOrEmpty(requestHotel.SortByName) ? requestHotel.SortByName : requestHotel.SortByName
+                                                    , String.IsNullOrEmpty(requestHotel.SortByPrice) ? requestHotel.SortByPrice : requestHotel.SortByPrice);
 
                         // in case if it is desired to remove those availability records which do no meet requirements so un comment below lines
                         // RemoveIrrelevantDataFromAvailability(lstHotel, dateFrom, dateTo);
@@ -133,6 +134,151 @@ namespace WcfHotelService.BAL.Business
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rangeFrom"></param>
+        /// <param name="rangeTo"></param>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
+        /// <param name="rangeStart"></param>
+        /// <param name="rangeEnd"></param>
+        /// <param name="dateStart"></param>
+        /// <param name="dateEnd"></param>
+        /// <returns></returns>
+        public Boolean AreParameterTypesValidForSearch(String rangeFrom, String rangeTo, String dateFrom, String dateTo) 
+        {
+            List<CustomMessage> lstCustomMessage = null;
+            Double num;
+            DateTime dt;
+
+            try
+            {
+                // checking price_from is valid double number or not
+                if (!String.IsNullOrEmpty(rangeFrom))
+                {
+                    if (!Double.TryParse(rangeFrom, out num))
+                    {
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;                        
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_PRICE_FROM_NOT_NUMBER
+                         ,
+                            Message = Constants.CONST_VALIDATION_PRICE_FROM_NOT_NUMBER_DESCRIPTION
+                        });
+                    }
+                }
+
+                // checking price_to is valid double number or not
+                if (!String.IsNullOrEmpty(rangeTo))
+                {
+                    if (!Double.TryParse(rangeTo, out num))
+                    {
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_PRICE_TO_NOT_NUMBER
+                         ,
+                            Message = Constants.CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION
+                        });
+                    }
+                }
+
+                // checking from date is valid date or not
+                if (!String.IsNullOrEmpty(dateFrom))
+                {
+                    if (!DateTime.TryParse(dateFrom, out dt))
+                    {
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_DATE_FROM_NOT_VALID
+                         ,
+                            Message = Constants.CONST_VALIDATION_DATE_FROM_NOT_VALID_DESCRIPTION
+                        });
+                    }
+                }
+                
+                // checking from date is valid date or not
+                if (!String.IsNullOrEmpty(dateFrom))
+                {
+                    if (!Regex.Match(dateFrom, Constants.CONST_REGEX_FOR_DD_MM_YYYY).Success)
+                    {
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID
+                         ,
+                            Message = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID_DESCRIPTION
+                        });
+                    }
+                }
+
+                // checking from date is valid date or not
+                if (!String.IsNullOrEmpty(dateTo))
+                {
+                    if (!DateTime.TryParse(dateTo, out dt))
+                    {
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_DATE_TO_NOT_VALID
+                         ,
+                            Message = Constants.CONST_VALIDATION_DATE_TO_NOT_VALID_DESCRIPTION
+                        });
+                    }
+                }
+
+                // checking from date is valid date or not
+                if (!String.IsNullOrEmpty(dateTo))
+                {
+                    if (!Regex.Match(dateTo, Constants.CONST_REGEX_FOR_DD_MM_YYYY).Success)
+                    {
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID
+                         ,
+                            Message = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID_DESCRIPTION
+                        });
+                    }
+                }
+
+                if (!lstCustomMessage.IsNull())
+                {
+                    // validation failed and all validation messages will later be transported to servcie class
+                    throw new CustomException() { Messages = lstCustomMessage };
+                }
+            }
+            catch (CustomException ex)
+            {
+                // in case some exception appears which was not defined and method crashed                
+                // but in case any failure happens which was not handled or it is external issue then general message will be assigned with failure
+                if (ex.Messages.IsNullOrEmpty())
+                {
+                    ex.Messages = new List<CustomMessage>();
+                    ex.Messages.Add(new CustomMessage
+                    {
+                        Code = Constants.CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR
+                        ,
+                        Message = Constants.CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR_DESCRIPTION
+                    });
+                }
+
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                CustomException cEx = new CustomException(new List<CustomMessage> { new CustomMessage { Code = Constants.CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR, Message = Constants.CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR_DESCRIPTION } }
+                    , ex.Message
+                    , ex.InnerException);
+
+                throw cEx;
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region Private Methods
@@ -166,8 +312,8 @@ namespace WcfHotelService.BAL.Business
 
                 // if nullable values are not provided then it will pass in first OR clause
                 // else it will match data in second clause 
-                queryableHotels = queryableHotels.Where(h => (String.IsNullOrEmpty(hotelName) || h.Name.ToLower().Contains(hotelName))
-                                        && (String.IsNullOrEmpty(destination) || h.City.ToLower().Contains(destination))
+                queryableHotels = queryableHotels.Where(h => (String.IsNullOrEmpty(hotelName) || h.Name.Contains(hotelName, StringComparison.OrdinalIgnoreCase))
+                                        && (String.IsNullOrEmpty(destination) || h.City.Contains(destination, StringComparison.OrdinalIgnoreCase))
                                         && (rangeFrom == null || h.Price >= rangeFrom)
                                         && (rangeTo == null || h.Price <= rangeTo)
                                         && (h.Availability.Any(a => (dateFrom == null || a.fromDate <= dateFrom) && (dateTo == null || a.toDate >= dateTo))));
@@ -222,7 +368,7 @@ namespace WcfHotelService.BAL.Business
                     // from value is greater than to value
                     if (rangeFrom.Value > rangeTo.Value)
                     {
-                        lstCustomMessage = new List<CustomMessage>();
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
                         lstCustomMessage.Add(new CustomMessage
                         {
                             Code = Constants.CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE
@@ -238,11 +384,7 @@ namespace WcfHotelService.BAL.Business
                     // from value is greater than to value
                     if (dateFrom.Value > dateTo.Value)
                     {
-                        if (lstCustomMessage.IsNull())
-                        {
-                            lstCustomMessage = new List<CustomMessage>();
-                        }
-
+                        lstCustomMessage = lstCustomMessage.IsNull() ?  new List<CustomMessage>() : lstCustomMessage;
                         lstCustomMessage.Add(new CustomMessage
                         {
                             Code = Constants.CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE
@@ -260,11 +402,7 @@ namespace WcfHotelService.BAL.Business
                     if (!sortByName.Equals(Constants.CONST_SORT_ASC, StringComparison.OrdinalIgnoreCase)
                         && !sortByName.Equals(Constants.CONST_SORT_DESC, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (lstCustomMessage.IsNull())
-                        {
-                            lstCustomMessage = new List<CustomMessage>();
-                        }
-
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
                         lstCustomMessage.Add(new CustomMessage
                         {
                             Code = Constants.CONST_VALIDATION_SORT_BY_NAME_NOT_DEFINED_PROPERLY
@@ -282,11 +420,7 @@ namespace WcfHotelService.BAL.Business
                     if (!sortByPrice.Equals(Constants.CONST_SORT_ASC, StringComparison.OrdinalIgnoreCase)
                         && !sortByPrice.Equals(Constants.CONST_SORT_DESC, StringComparison.OrdinalIgnoreCase))
                     {
-                        if (lstCustomMessage.IsNull())
-                        {
-                            lstCustomMessage = new List<CustomMessage>();
-                        }
-
+                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
                         lstCustomMessage.Add(new CustomMessage
                         {
                             Code = Constants.CONST_VALIDATION_SORT_BY_PRICE_NOT_DEFINED_PROPERLY
