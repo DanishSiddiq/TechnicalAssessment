@@ -1,15 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using WcfHotelService.Common;
-using WcfHotelService.Common.Extensions;
-using WcfHotelService.Common.Exceptions;
-using WcfHotelService.Common.Entities;
-using Newtonsoft.Json.Linq;
 using System.Globalization;
+using System.Linq;
+using System.Net;
+using WcfHotelService.Common.Entities;
+using WcfHotelService.Common.Exceptions;
+using WcfHotelService.Common.Extensions;
 
 namespace WcfHotelService.Common
 {
@@ -19,14 +16,56 @@ namespace WcfHotelService.Common
     /// </summary>
     public class Utility
     {
+
         #region Public Method
 
         /// <summary>
-        /// 
+        /// Calling API service and passing JSON to method to transform in collection 
+        /// </summary>
+        /// <returns></returns>
+        public List<Hotel> CallHotelsAPI()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                {
+
+                    // fetch json data and transform it from json into list data to perform calculations
+                    var json = client.DownloadString(Constants.CONST_HOTEL_API);
+                    return parseJSONIntoHotelData(json);
+                }
+            }
+            catch (CustomException cEx)
+            {
+                // detail code for whole messages trail
+                if (cEx.Messages.IsNull())
+                {
+                    cEx.Messages = new List<CustomMessage>();
+                }
+
+                cEx.Messages.Add(new CustomMessage { Code = Constants.CONST_API_NOT_ACCESSIBLE, Message = Constants.CONST_API_NOT_ACCESSIBLE_DESCRIPTION });
+                throw cEx;
+            }
+            catch (Exception ex)
+            {
+                CustomException cEx = new CustomException(new List<CustomMessage> { new CustomMessage { Code = Constants.CONST_API_NOT_ACCESSIBLE, Message = Constants.CONST_API_NOT_ACCESSIBLE_DESCRIPTION } }
+                    , ex.Message
+                    , ex.InnerException);
+                
+                throw cEx;
+            }
+        }
+
+        #endregion
+
+        #region Private Method
+
+        /// <summary>
+        /// transforming json into collection for further modulation
         /// </summary>
         /// <param name="json"></param>
         /// <returns></returns>
-        public List<Hotel> parseJSONIntoHotelData(String json)
+        private List<Hotel> parseJSONIntoHotelData(String json)
         {
             List<Hotel> lstHotel = null;
             try
@@ -77,13 +116,21 @@ namespace WcfHotelService.Common
             catch (CustomException ex)
             {
                 // detail code for whole messages trail
-                if (ex.LstCustomMessage.IsNull())
+                if (ex.Messages.IsNull())
                 {
-                    ex.LstCustomMessage = new List<CustomMessage>();
+                    ex.Messages = new List<CustomMessage>();
                 }
 
-                ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_QUERY_ERROR, Message = Constants.CONST_EXCEPTION_QUERY_ERROR_DESCRIPTION });
+                ex.Messages.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_JSON_NOT_PARSEABLE, Message = Constants.CONST_EXCEPTION_JSON_NOT_PARSEABLE_DESCRIPTION });
                 throw ex;
+            }
+            catch (Exception ex)
+            {
+                CustomException cEx = new CustomException(new List<CustomMessage> { new CustomMessage { Code = Constants.CONST_EXCEPTION_JSON_NOT_PARSEABLE, Message = Constants.CONST_EXCEPTION_JSON_NOT_PARSEABLE_DESCRIPTION } }
+                    , ex.Message
+                    , ex.InnerException);
+
+                throw cEx;
             }
 
             return lstHotel;

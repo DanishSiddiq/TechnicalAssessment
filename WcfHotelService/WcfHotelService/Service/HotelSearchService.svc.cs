@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 
+using WcfHotelService.BAL.Business;
 using WcfHotelService.Common;
 using WcfHotelService.Common.Entities;
 using WcfHotelService.Common.Exceptions;
 using WcfHotelService.Common.Extensions;
-
 
 namespace WcfHotelService.Service
 {
@@ -17,15 +15,8 @@ namespace WcfHotelService.Service
     /// </summary>
     public class HotelSearchService : IHotelSearchService
     {
-
-        public string Echo(string echoString)
-        {
-            return echoString;
-        }
-
         /// <summary>
-        /// keeping optional parameters to provide flexibility of searching
-        /// JSON returned from URI is transformed into more readable object formats to perform operations easily
+        /// This method wil return JSON and in case further operations are desired on result set it can be perfomrmed in this method before returning result
         /// </summary>
         /// <param name="hotelName"></param>
         /// <param name="destination"></param>
@@ -34,89 +25,32 @@ namespace WcfHotelService.Service
         /// <param name="dateFrom"></param>
         /// <param name="dateTo"></param>
         /// <returns></returns>        
-        public ResponseHotel Search(RequestHotel RequestHotel)
+        public ResponseHotel SearchResultJson(RequestHotel requestHotel) 
         {
-
-            // TODO: do something with the model
-            List<Hotel> lstHotel = null;
-            BAL.Business.HotelBAL hotelBAL = null;
-            Utility utility = null;
-
-            // Result should be sent with proper details in case of failures
+            // in case in future further operations need to be performed on JSON data
+            // Result should be sent with proper details in case of failures either error or validations
             ResponseHotel responseSearch = new ResponseHotel();
 
             try
             {
-                using (var client = new WebClient())
-                {
+                // in case in further operations need to be performed on XML data
+                responseSearch.Hotels = Search(requestHotel);
 
-                    // fetch json data and transform it from json into list data to perform calculations
-                    var json = client.DownloadString(Constants.CONST_HOTEL_API);
-
-                    // parsing json into list
-                    utility = new Utility();
-                    lstHotel = utility.parseJSONIntoHotelData(json);
-
-                    // first check that it must contains some values
-                    if (lstHotel != null)
-                    {
-                        // testing data
-                        //hotelName = "hotel";
-                        //destination = "MANILA";
-                        //rangeFrom = 90;
-                        //rangeTo = null;
-                        //sortByPrice = "ASC";                        
-                        //dateFrom = null; // new DateTime(2020, 12, 5);
-                        //dateTo = new DateTime(2020, 12, 10); ; //new DateTime(2020, 12, 16);
-                        
-                        // initiating class at requirement
-                        hotelBAL = new BAL.Business.HotelBAL();
-                        lstHotel = hotelBAL.Search(lstHotel.AsQueryable()
-                                                    , String.IsNullOrEmpty(RequestHotel.HotelName) ? RequestHotel.HotelName : RequestHotel.HotelName.ToLower()
-                                                    , String.IsNullOrEmpty(RequestHotel.Destination) ? RequestHotel.Destination : RequestHotel.Destination.ToLower()
-                                                    , (RequestHotel.RangeFrom.HasValue && RequestHotel.RangeFrom.Value > 0) ? RequestHotel.RangeFrom : null
-                                                    , (RequestHotel.RangeTo.HasValue && RequestHotel.RangeTo.Value > 0) ? RequestHotel.RangeTo : null
-                                                    , RequestHotel.DateFrom
-                                                    , RequestHotel.DateTo
-                                                    , String.IsNullOrEmpty(RequestHotel.SortByName) ? RequestHotel.SortByName : RequestHotel.SortByName.ToLower()
-                                                    , String.IsNullOrEmpty(RequestHotel.SortByPrice) ? RequestHotel.SortByPrice : RequestHotel.SortByPrice.ToLower());
-
-                        // in case if it is desired to remove those availability records which do no meet requirements so un comment below lines
-                        // hotelBAL.RemoveIrrelevantDataFromAvailability(lstHotel, dateFrom, dateTo);
-                    }
-                    else
-                    {
-                        if (responseSearch.Messages.IsNull())
-                        {
-                            responseSearch.Messages = new List<CustomMessage>();
-                        }
-                        responseSearch.Messages.Add(new CustomMessage { Code = Constants.CONST_API_DO_NOT_CONTAIN_OFFERS
-                        ,
-                                                                                Message = Constants.CONST_API_DO_NOT_CONTAIN_OFFERS_DESCRIPTION
-                        });
-                    }
-
-                    // data
-                    responseSearch.Hotels = lstHotel;
-
-                    // success code
-                    responseSearch.Code = Constants.CONST_RESULT_CODE_SUCCESS;
-                }
+                // if all operations are perfomred well return success code
+                responseSearch.Code = Constants.CONST_RESULT_CODE_SUCCESS;
             }
             catch (CustomException ex)
             {
-                // all nested methods are defined with exception which specifically will populate message based on error with in internal system
-                // but in case any failure happens which was not handled or it is external issue then general message will be assigned with failure
-                if (ex.LstCustomMessage.IsNull())
-                {
-                    ex.LstCustomMessage = new List<CustomMessage>();
-                    ex.LstCustomMessage.Add(new CustomMessage { Code = Constants.CONST_API_NOT_ACCESSIBLE, Message = Constants.CONST_API_NOT_ACCESSIBLE_DESCRIPTION });
-                }
+                responseSearch.Messages = ex.Messages;
 
-                // message lists in case of failure
-                responseSearch.Messages = new List<Common.Entities.CustomMessage>(ex.LstCustomMessage);
+                // General failure code to inform client that request went unsuccessful
+                responseSearch.Code = Constants.CONST_RESULT_CODE_FAILURE;
+            }
+            catch
+            {
+                responseSearch.Messages = new List<CustomMessage> { new CustomMessage { Code = Constants.CONST_EXCEPTION_INTERNAL_ERROR, Message = Constants.CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION } };
 
-                // failure code
+                // General failure code to inform client that request went unsuccessful
                 responseSearch.Code = Constants.CONST_RESULT_CODE_FAILURE;
             }
 
@@ -124,14 +58,249 @@ namespace WcfHotelService.Service
         }
 
         /// <summary>
+        /// This method wil return JSON and in case further operations are desired on result set it can be perfomrmed in this method before returning result
+        /// </summary>
+        /// <param name="hotelName"></param>
+        /// <param name="destination"></param>
+        /// <param name="rangeFrom"></param>
+        /// <param name="rangeTo"></param>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
+        /// <returns></returns>        
+        public ResponseHotel SearchResultXML(RequestHotel requestHotel) 
+        {
+            // in case in future further operations need to be performed on XML data
+            // Result should be sent with proper details in case of failures either error or validations
+            ResponseHotel responseSearch = new ResponseHotel();
+
+            try
+            {
+                // in case in future further operations need to be performed on XML data
+                responseSearch.Hotels = Search(requestHotel);
+
+                // if all operations are perfomred well return success code
+                responseSearch.Code = Constants.CONST_RESULT_CODE_SUCCESS;
+            }
+            catch (CustomException ex)
+            {
+                responseSearch.Messages = ex.Messages;
+
+                // General failure code to inform client that request went unsuccessful
+                responseSearch.Code = Constants.CONST_RESULT_CODE_FAILURE;
+            }
+            catch
+            {
+                responseSearch.Messages = new List<CustomMessage> { new CustomMessage { Code = Constants.CONST_EXCEPTION_INTERNAL_ERROR, Message = Constants.CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION } };
+
+                // General failure code to inform client that request went unsuccessful
+                responseSearch.Code = Constants.CONST_RESULT_CODE_FAILURE;
+            }
+
+            return responseSearch;
+        }
+
+        /// <summary>
+        /// testing method that echo is working fine in wcf
+        /// </summary>
+        /// <param name="echoString"></param>
+        /// <returns></returns>
+        public string Echo(string echoString)
+        {
+            return echoString;
+        }
+
+        /// <summary>
+        /// same logic as post but to serve as a purpose for rest call. 
+        /// provide easines to call APi by any means
+        /// </summary>
+        /// <param name="HotelName"></param>
+        /// <param name="Destination"></param>
+        /// <param name="RangeFrom"></param>
+        /// <param name="RangeTo"></param>
+        /// <param name="DateFrom"></param>
+        /// <param name="DateTo"></param>
+        /// <param name="SortByName"></param>
+        /// <param name="SortByPrice"></param>
+        /// <returns></returns>
+        public ResponseHotel SearchResultJson_Get(String HotelName, String Destination, String RangeFrom, String RangeTo, String DateFrom, String DateTo, String SortByName, String SortByPrice)
+        {
+            // in case in future further operations need to be performed on XML data
+            // Result should be sent with proper details in case of failures either error or validations
+            ResponseHotel responseSearch = new ResponseHotel();
+            RequestHotel requestHotel = new RequestHotel();
+
+            try
+            {
+                // in case in future further operations need to be performed on XML data
+                responseSearch.Hotels = Search(requestHotel);
+
+                // if all operations are perfomred well return success code
+                responseSearch.Code = Constants.CONST_RESULT_CODE_SUCCESS;
+            }
+            catch (CustomException ex)
+            {
+                responseSearch.Messages = ex.Messages;
+
+                // General failure code to inform client that request went unsuccessful
+                responseSearch.Code = Constants.CONST_RESULT_CODE_FAILURE;
+            }
+            catch
+            {
+                responseSearch.Messages = new List<CustomMessage> { new CustomMessage { Code = Constants.CONST_EXCEPTION_INTERNAL_ERROR, Message = Constants.CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION } };
+
+                // General failure code to inform client that request went unsuccessful
+                responseSearch.Code = Constants.CONST_RESULT_CODE_FAILURE;
+            }
+
+            return responseSearch;
+        }        
+
+        #region Private Method
+
+        /// <summary>
+        /// unified method to perform all search opearations for hotels without any difference of calling method
+        /// </summary>
+        /// <param name="requestHotel"></param>
+        /// <returns></returns>
+        private List<Hotel> Search(RequestHotel requestHotel) 
+        {
+            HotelBAL hotelBAL = new HotelBAL();
+
+            try
+            {
+                // calling business layer methos to perform all operations and just return result for hotels
+                return hotelBAL.SearchHotels(requestHotel);
+
+                // in case it is required to remove irrelavant date entries from nested availability collection then this method will do the job
+                // simply pass list of hotels into this methos with date ranges
+                //hotelBAL().RemoveIrrelevantDataFromAvailability
+
+            }
+            catch (CustomException ex)
+            {
+                // in case some exception appears which was not defined and method crashed
+                // all nested methods are defined with exception which specifically will populate message based on error with in internal system
+                // but in case any failure happens which was not handled or it is external issue then general message will be assigned with failure
+                if (ex.Messages.IsNullOrEmpty())
+                {
+                    ex.Messages = new List<CustomMessage>();
+                    ex.Messages.Add(new CustomMessage { Code = Constants.CONST_EXCEPTION_INTERNAL_ERROR, Message = Constants.CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION });
+                }
+
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                CustomException cEx = new CustomException(new List<CustomMessage> { new CustomMessage { Code = Constants.CONST_EXCEPTION_INTERNAL_ERROR, Message = Constants.CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION } }
+                    , ex.Message
+                    , ex.InnerException);
+
+                throw cEx;
+            }
+        }
+
+        /// <summary>
         /// 
         /// </summary>
-        /// <param name="customMessage"></param>
+        /// <param name="rangeFrom"></param>
+        /// <param name="rangeTo"></param>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
         /// <returns></returns>
-        public ResponseHotel test(CustomMessage customMessage)
+        private Boolean AreParameterTypesValidForSearch(String rangeFrom, String rangeTo, String dateFrom, String dateTo) 
         {
-            return new ResponseHotel { Code = Convert.ToInt32(customMessage.Code), Messages = null, Hotels = null };
+            List<CustomMessage> lstCustomMessage = null;
+
+            try
+            {
+                // checking price_from  is valid double number or not
+                if (!String.IsNullOrEmpty(rangeFrom))
+                {
+                    Double rangeStart;
+                    if (!Double.TryParse(rangeFrom, out rangeStart))
+                    {
+                        lstCustomMessage = new List<CustomMessage>();
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_PRICE_FROM_NOT_NUMBER
+                         ,
+                            Message = Constants.CONST_VALIDATION_PRICE_FROM_NOT_NUMBER_DESCRIPTION
+                        });
+                    }
+                }
+
+                // checking price_to is valid double number or not
+                if (!String.IsNullOrEmpty(rangeTo))
+                {
+                    Double rangeEnd;
+                    if (!Double.TryParse(rangeFrom, out rangeEnd))
+                    {
+                        lstCustomMessage = new List<CustomMessage>();
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_PRICE_TO_NOT_NUMBER
+                         ,
+                            Message = Constants.CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION
+                        });
+                    }
+                }
+
+                // checking from date is valid date or not
+                if (!String.IsNullOrEmpty(dateFrom))
+                {
+                    DateTime dateStart;
+                    if (!DateTime.TryParse(dateFrom, out dateStart))
+                    {
+                        lstCustomMessage = new List<CustomMessage>();
+                        lstCustomMessage.Add(new CustomMessage
+                        {
+                            Code = Constants.CONST_VALIDATION_PRICE_TO_NOT_NUMBER
+                         ,
+                            Message = Constants.CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION
+                        });
+                    }
+                }
+
+
+                
+
+                if (!lstCustomMessage.IsNull())
+                {
+                    // validation failed and all validation messages will later be transported to servcie class
+                    throw new CustomException() { Messages = lstCustomMessage };
+                }
+            }
+            catch (CustomException ex)
+            {
+                // in case some exception appears which was not defined and method crashed
+                // all nested methods are defined with exception which specifically will populate message based on error with in internal system
+                // but in case any failure happens which was not handled or it is external issue then general message will be assigned with failure
+                if (ex.Messages.IsNullOrEmpty())
+                {
+                    ex.Messages = new List<CustomMessage>();
+                    ex.Messages.Add(new CustomMessage
+                    {
+                        Code = Constants.CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR
+                        ,
+                        Message = Constants.CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR_DESCRIPTION
+                    });
+                }
+
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                CustomException cEx = new CustomException(new List<CustomMessage> { new CustomMessage { Code = Constants.CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR, Message = Constants.CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR_DESCRIPTION } }
+                    , ex.Message
+                    , ex.InnerException);
+
+                throw cEx;
+            }
+
+            return true;
         }
+
+        #endregion
 
     }
 }

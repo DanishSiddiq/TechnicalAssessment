@@ -18,7 +18,7 @@ namespace WcfHotelService.Common.Exceptions
         /// <summary>
         /// to hold multiple values
         /// </summary>
-        public List<CustomMessage> LstCustomMessage
+        public List<CustomMessage> Messages
         {
             get;
             set;
@@ -27,7 +27,7 @@ namespace WcfHotelService.Common.Exceptions
         /// <summary>
         /// Mandatory Constructor for base class
         /// </summary>
-        public CustomException()
+        public CustomException() : base ()
         {
         }
         
@@ -60,7 +60,7 @@ namespace WcfHotelService.Common.Exceptions
         public CustomException(List<CustomMessage> lstCustomMessage, string message, System.Exception innerException)
             : base(message, innerException)
         {
-            this.LstCustomMessage = lstCustomMessage;
+            this.Messages = lstCustomMessage;
         }
     }
 }

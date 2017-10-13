@@ -8,19 +8,19 @@ namespace WcfHotelService.Common
 {
     public static class Constants
     {
-        #region URL to fetch data
+        #region URL To Fetch Data
 
         public const String CONST_HOTEL_API = "http://api.myjson.com/bins/tl0bp";
 
         #endregion
 
-        #region Empty string to avoid reinitialization
+        #region Empty String To Avoid Reinitialization
 
         public const String CONST_EMPTY_STRING = "";
 
         #endregion
 
-        #region Hotel json parsin properties
+        #region Hotel JSON Properties
 
         public const String CONST_HOTEL_HOTELS = "hotels";
         public const String CONST_HOTEL_NAME = "name";
@@ -32,31 +32,48 @@ namespace WcfHotelService.Common
 
         #endregion
 
-        #region Sorting orders defined
+        #region Sorting Orders Definition
 
         public const String CONST_SORT_ASC = "asc";
         public const String CONST_SORT_DESC = "desc";
 
         #endregion
 
-        #region Exception/Result/Validation Codes
+        #region Validation Errors Codes and Messages
+
+        // validation errors for hotel
+        public const String CONST_EXCEPTION_SEARCHABLE_PARAMETER_NOT_VALID = "Error_2001";
+        public const String CONST_EXCEPTION_SEARCHABLE_PARAMETER_NOT_VALID_DESCRIPTION = "Searchable parameters are not properly defined.";
+        public const String CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE = "Error_2002";
+        public const String CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE_DESCRIPTION = "From price is greater than To price.";
+        public const String CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE = "Error_2003";
+        public const String CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE_DESCRIPTION = "From date is grater than To date.";
+        public const String CONST_VALIDATION_SORT_BY_NAME_NOT_DEFINED_PROPERLY = "Error_2004";
+        public const String CONST_VALIDATION_SORT_BY_NAME_NOT_DEFINED_PROPERLY_DESCRIPTION = "Order by name parameter is not defined properly. Value can only ASC/asc or DESC/desc.";
+        public const String CONST_VALIDATION_SORT_BY_PRICE_NOT_DEFINED_PROPERLY = "Error_2005";
+        public const String CONST_VALIDATION_SORT_BY_PRICE_NOT_DEFINED_PROPERLY_DESCRIPTION = "Order by price parameter is not defined properly. Value can only ASC/asc or DESC/desc.";
+
+        // validation for GET request that parameter value must be defined properly
+        public const String CONST_VALIDATION_PRICE_FROM_NOT_NUMBER = "Error_2006";
+        public const String CONST_VALIDATION_PRICE_FROM_NOT_NUMBER_DESCRIPTION = "Price From is not defined correctly. Kindly provide valid number.";
+        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER = "Error_2007";
+        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION = "Price To is not defined correctly. Kindly provide valid number.";
+        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER = "Error_2008";
+        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION = "Price To is not defined correctly. Kindly provide valid number.";
+        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER = "Error_2009";
+        public const String CONST_VALIDATION_PRICE_TO_NOT_NUMBER_DESCRIPTION = "Price To is not defined correctly. Kindly provide valid number.";
+
+        #endregion
+
+        #region Exception Codes And Messages
 
         // overall operations errors
         public const Int32 CONST_RESULT_CODE_FAILURE = 0;
         public const Int32 CONST_RESULT_CODE_SUCCESS = 1;
 
-
         // parser errors
         public const String CONST_EXCEPTION_JSON_NOT_PARSEABLE = "Error_1001";
         public const String CONST_EXCEPTION_JSON_NOT_PARSEABLE_DESCRIPTION = "JSON is not parseable";
-
-        // validation errors
-        public const String CONST_EXCEPTION_SEARCHABLE_PARAMETER_NOT_VALID = "Error_1002";
-        public const String CONST_EXCEPTION_SEARCHABLE_PARAMETER_NOT_VALID_DESCRIPTION = "Searchable parameters are not properly defined.";
-        public const String CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE = "Error_1003";
-        public const String CONST_VALIDATION_FROM_PRICE_GREATER_THAN_TO_PRICE_DESCRIPTION = "From price is greater thab To price.";
-        public const String CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE = "Error_1004";
-        public const String CONST_VALIDATION_FROM_DATE_GREATER_THAN_TO_DATE_DESCRIPTION = "From date is grater than To date.";
 
         // query errors
         public const String CONST_EXCEPTION_QUERY_ERROR = "Error_1005";
@@ -73,6 +90,14 @@ namespace WcfHotelService.Common
         // Hotel API returns empty data
         public const String CONST_API_NOT_ACCESSIBLE = "Error_1009";
         public const String CONST_API_NOT_ACCESSIBLE_DESCRIPTION = "API is not accessible.";
+
+        // General Internal Error
+        public const String CONST_EXCEPTION_INTERNAL_ERROR = "Error_1010";
+        public const String CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION = "Internal error happens on server while processing request.";
+
+        // Search Parameters are not defined properly
+        public const String CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR = "Error_1010";
+        public const String CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR_DESCRIPTION = "Search paramaters are not defined properly.";
 
         #endregion
 
