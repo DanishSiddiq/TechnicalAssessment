@@ -137,7 +137,7 @@ namespace WcfHotelService.UnitTest
         // All following cases are pasing desired result
 
         /// <summary>
-        /// In case no parameteric values are provided then by default service must return all hotels with out filtering
+        /// In case no parameteric values are provided then by default service must return all hotels with out filtering and sorting
         /// </summary>
         [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
         public void Get_All_Hotels_Return_List_Count_Pass()
@@ -147,14 +147,14 @@ namespace WcfHotelService.UnitTest
             var resp = hotelSearchService.SearchResultJson_Get(null, null, null, null, null, null, null, null);
 
             //Assert 
-            Assert.AreEqual(Constants.CONST_HOTEL_COUNT, resp.Hotels.Count, Constants.CONST_CHECK_ALL_HOTELS);
+            Assert.AreEqual(Constants.CONST_HOTEL_COUNT, resp.Hotels.Count, Constants.CONST_CHECK_ALL_HOTELS_RESULT);
         }
 
 
         /// <summary>
-        /// 
+        /// All hotels must be listed in ascending order by price
         /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS_ORDER_BY_PRICE_ASC)]
         public void Get_Hotels_List_Sort_By_Price_ASC_Pass()
         {
             List<String> desiredResp =  new List<String>
@@ -177,14 +177,14 @@ namespace WcfHotelService.UnitTest
             }
 
             //Assert
-            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);            
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS_ORDER_BY_PRICE_ASC_RESULT);            
         }
 
 
         /// <summary>
-        /// 
+        /// All hotels must be listed in descending order by name
         /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS_ORDER_BY_NAME_DESC)]
         public void Get_Hotels_By_Name_Sort_By_Name_Desc_Pass()
         {
             List<String> desiredResp = new List<String>
@@ -205,14 +205,15 @@ namespace WcfHotelService.UnitTest
             }
 
             //Assert
-            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS_ORDER_BY_NAME_DESC_RESULT);
 
         }
 
+
         /// <summary>
-        /// 
+        /// Hotel must be listed with destination
         /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        [Test(Description = Constants.CONST_CHECK_HOTEL_BY_DESINATION)]
         public void Get_Hotels_By_Destination_Pass()
         {
             List<String> desiredResp = new List<String>
@@ -230,14 +231,42 @@ namespace WcfHotelService.UnitTest
             }
 
             //Assert
-            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_HOTEL_BY_DESINATION_RESULT);
         }
 
 
         /// <summary>
-        /// 
+        /// Check hotel with price range
         /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        [Test(Description = Constants.CONST_CHECK_HOTEL_BY_PRICE_RANGE)]
+        public void Get_Hotels_By_Price_Range_Pass()
+        {
+            List<String> desiredResp = new List<String>
+            {
+                Constants.CONST_HOTEL_MEDIA_ONE,
+                Constants.CONST_HOTEL_ROTANA,
+                Constants.CONST_HOTEL_LE_MERIDIEN,
+                Constants.CONST_HOTEL_GOLDEN_TULIP
+            };
+
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, "", "80", "110", null, null, null, "");
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_HOTEL_BY_PRICE_RANGE_RESULT);
+        }
+
+
+        /// <summary>
+        /// Check hotel with price range and descending order by price
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_HOTEL_BY_PRICE_RANGE_ORDER_BY_PRICE_DESC)]
         public void Get_Hotels_By_Price_Range_Sort_By_Price_Desc_Pass()
         {
             List<String> desiredResp = new List<String>
@@ -256,42 +285,13 @@ namespace WcfHotelService.UnitTest
             }
 
             //Assert
-            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_HOTEL_BY_PRICE_RANGE_ORDER_BY_PRICE_DESC_RESULT);
         }
 
-
         /// <summary>
-        /// 
+        /// Check all hotels which starts from price of 90 and sort by hotel name in ascending order
         /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
-        public void Get_Hotels_By_Price_Range_Pass()
-        {
-            List<String> desiredResp = new List<String>
-            {
-                Constants.CONST_HOTEL_MEDIA_ONE,
-                Constants.CONST_HOTEL_ROTANA,                
-                Constants.CONST_HOTEL_LE_MERIDIEN,
-                Constants.CONST_HOTEL_GOLDEN_TULIP
-            };
-
-            //Act 
-            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, "", "80", "110", null, null, null, "");
-
-            List<String> hotelNames = new List<string>();
-            foreach (Hotel h in resp.Hotels)
-            {
-                hotelNames.Add(h.Name);
-            }
-
-            //Assert
-            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);            
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        [Test(Description = Constants.CONST_CHECK_HOTEL_PRICE_FROM_ORDER_BY_NAME_ASC)]
         public void Get_Hotels_From_Price_Sort_By_Name_ASC_Pass()
         {
             List<String> desiredResp = new List<String>
@@ -311,15 +311,15 @@ namespace WcfHotelService.UnitTest
             }
 
             //Assert
-            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_HOTEL_PRICE_FROM_ORDER_BY_NAME_ASC_RESULT);
 
         }
 
 
         /// <summary>
-        /// 
+        /// Check hotel with in date range and order by name in ascending order and price in descending order
         /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        [Test(Description = Constants.CONST_CHECK_HOTEL_BY_DATE_RANGE_ORDER_BY_NAME_ASC_ORDER_BY_PRICE_DESC)]
         public void Get_Hotels_By_Date_Range_Sort_By_Name_ASC_Sort_By_Price_DESC_Pass()
         {
             List<String> desiredResp = new List<String>
@@ -338,15 +338,15 @@ namespace WcfHotelService.UnitTest
             }
 
             //Assert
-            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_HOTEL_BY_DATE_RANGE_ORDER_BY_NAME_ASC_ORDER_BY_PRICE_DESC_RESULT);
         }
 
 
         /// <summary>
-        /// 
+        /// Check hotels only by to date and order them by price in descending
         /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
-        public void Get_Hotels_To_Date_Sort_By_Price_DESC_Pass()
+        [Test(Description = Constants.CONST_CHECK_HOTEL_BY_TO_DATE_ORDER_BY_NAME_PRICE_DESC)]
+        public void Get_Hotels_To_Date_Sort_By_Price_DESC_Pass() 
         {
             List<String> desiredResp = new List<String>
             {
@@ -367,7 +367,7 @@ namespace WcfHotelService.UnitTest
             }
 
             //Assert
-            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_HOTEL_BY_TO_DATE_ORDER_BY_NAME_PRICE_DESC_RESULT);
 
             iHotelSearchService.VerifyAllExpectations();
         }
