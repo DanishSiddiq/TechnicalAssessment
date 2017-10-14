@@ -46,6 +46,5 @@ namespace WcfHotelService.Common.Extensions
             {
                 return source.IndexOf(toCheck, comp) >= 0;
             }
-
     }
 }

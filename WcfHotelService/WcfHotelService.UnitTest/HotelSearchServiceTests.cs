@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -30,6 +29,7 @@ namespace WcfHotelService.UnitTest
         {
 
         }
+
 
         /// <summary>
         /// This mehtod will check that request must return response request and it shouldnt be null
@@ -68,39 +68,6 @@ namespace WcfHotelService.UnitTest
 
 
         /// <summary>
-        /// In case no parameteric values are provided then by default service must return all hotels with out filtering
-        /// </summary>
-        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
-        public void Get_All_Hotels_Return_List_Count_Pass()
-        {
-
-            //Act 
-            var resp = hotelSearchService.SearchResultJson_Get(null, null, null, null, null, null, null, null);
-
-            //Assert 
-            Assert.AreEqual(Constants.CONST_HOTEL_COUNT, resp.Hotels.Count, Constants.CONST_CHECK_ALL_HOTELS);
-            
-        }
-
-
-        /// <summary>
-        /// Checking value of specific hotel by strict filtering
-        /// </summary>
-        [Test(Description = Constants.CONST_CHECK_SPECIFIC_HOTEL_FILTERING)]
-        public void Get_Specific_Hotel_Filtering_Pass()
-        {
-            // I deliberatly kept this constant here for easines to change parameter and test functionality easily
-            String hotelName = "Golden Tulip";
-
-            //Act 
-            var resp = hotelSearchService.SearchResultJson_Get("", "", "105", "120", "20-10-2020", "30-10-2020", "ASC", "DESC");
-
-            //Assert            
-            Assert.AreEqual(hotelName, resp.Hotels[0].Name, Constants.CONST_CHECK_SPECIFIC_HOTEL_FILTERING_RESULT);
-
-        }
-
-        /// <summary>
         /// checking validation working fine or not by passing wrong parameters
         /// since 4 paramters formats are wrongly provided so count should be 4
         /// </summary>
@@ -116,13 +83,44 @@ namespace WcfHotelService.UnitTest
 
         }
 
+
+        /// <summary>
+        /// Sorting parameters are defined incorrectly so system must catch wrong parameters
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_SORT_PARAMETER)]
+        public void Get_Validation_Error_For_Wrong_Sort_Order()
+        {
+            //Act 
+            var resp = hotelSearchService.SearchResultJson_Get("", "", "", "", "", "", "wrong sort paramter", "wrong sort paramter");
+
+            //Assert            
+            Assert.AreEqual(2, resp.Messages.Count, Constants.CONST_CHECK_SORT_PARAMETER_RESULT);
+        }
+
+
+        /// <summary>
+        /// Checking value of specific hotel by strict filtering
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_SPECIFIC_HOTEL_FILTERING)]
+        public void Get_Specific_Hotel_Filtering_Pass()
+        {
+            
+            //Act 
+            var resp = hotelSearchService.SearchResultJson_Get("", "", "105", "120", "20-10-2020", "30-10-2020", "ASC", "DESC");
+
+            //Assert            
+            Assert.AreEqual(Constants.CONST_HOTEL_GOLDEN_TULIP, resp.Hotels[0].Name, Constants.CONST_CHECK_SPECIFIC_HOTEL_FILTERING_RESULT);
+
+        }
+
+
         /// <summary>
         /// Checking multiple hotels by strict filtering
-        /// Sort parameters must also be difined
+        /// Sort parameters are also be define
         /// only 2 hotels have price in between range of 80 & 100
         /// </summary>
         [Test(Description = Constants.CONST_CHECK_MULTIPLE_HOTEL_FILTERING)]
-        public void Get_Multiple_Hotels_By_Price_Pass()
+        public void Get_Multiple_Hotels_By_Price_And_Sort_Pass()
         {
             //Act 
             var resp = hotelSearchService.SearchResultJson_Get("", "", "80", "100", "", "", "ASC", "DESC");
@@ -133,22 +131,245 @@ namespace WcfHotelService.UnitTest
             Assert.AreEqual("Rotana Hotel", resp.Hotels[1].Name, Constants.CONST_CHECK_MULTIPLE_HOTEL_FILTERING_RESULT);
         }
 
+
+        // NOW BELOW MENTIONED CASES ARE FROM TEST MATRIX FILE SHARED IN GIT REPOSITORY 
+        // INPUTS AND DESIRED OUTPUT ARE ALSO DEFINED IN EXCEL
+        // All following cases are pasing desired result
+
         /// <summary>
-        /// Since sorting parameters are defined incorrectly so user must be informed about wrong parameters
+        /// In case no parameteric values are provided then by default service must return all hotels with out filtering
         /// </summary>
-        [Test(Description = Constants.CONST_CHECK_SORT_PARAMETER)]
-        public void Get_Validation_Error_For_Wrong_Sort_Order()
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_All_Hotels_Return_List_Count_Pass()
         {
+
             //Act 
-            var resp = hotelSearchService.SearchResultJson_Get("", "", "80", "100", "", "", "wrong sort paramter", "wrong sort paramter");
+            var resp = hotelSearchService.SearchResultJson_Get(null, null, null, null, null, null, null, null);
 
-            //Assert            
-            Assert.AreEqual(2, resp.Messages.Count, Constants.CONST_CHECK_SORT_PARAMETER_RESULT);
-
-            iHotelSearchService.VerifyAllExpectations();
+            //Assert 
+            Assert.AreEqual(Constants.CONST_HOTEL_COUNT, resp.Hotels.Count, Constants.CONST_CHECK_ALL_HOTELS);
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_Hotels_List_Sort_By_Price_ASC_Pass()
+        {
+            List<String> desiredResp =  new List<String>
+                                        {
+                                            Constants.CONST_HOTEL_CONCORDE,
+                                            Constants.CONST_HOTEL_ROTANA,
+                                            Constants.CONST_HOTEL_LE_MERIDIEN,
+                                            Constants.CONST_HOTEL_MEDIA_ONE,
+                                            Constants.CONST_HOTEL_GOLDEN_TULIP,
+                                            Constants.CONST_HOTEL_NOVOTEL
+                                        };
 
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, null, null, null, null, null, null, "ASC");
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);            
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_Hotels_By_Name_Sort_By_Name_Desc_Pass()
+        {
+            List<String> desiredResp = new List<String>
+            {
+                Constants.CONST_HOTEL_ROTANA,
+                Constants.CONST_HOTEL_NOVOTEL,
+                Constants.CONST_HOTEL_MEDIA_ONE,
+                Constants.CONST_HOTEL_CONCORDE
+            };
+
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get("Hotel", null, null, null, null, null, "desc", null);
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_Hotels_By_Destination_Pass()
+        {
+            List<String> desiredResp = new List<String>
+            {
+                Constants.CONST_HOTEL_CONCORDE
+            };
+
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, "MANILA", null, null, null, null, null, null);
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_Hotels_By_Price_Range_Sort_By_Price_Desc_Pass()
+        {
+            List<String> desiredResp = new List<String>
+            {
+                Constants.CONST_HOTEL_LE_MERIDIEN,
+                Constants.CONST_HOTEL_ROTANA
+            };
+
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, "", "80", "100", null, null, null, "DESC");
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_Hotels_By_Price_Range_Pass()
+        {
+            List<String> desiredResp = new List<String>
+            {
+                Constants.CONST_HOTEL_MEDIA_ONE,
+                Constants.CONST_HOTEL_ROTANA,                
+                Constants.CONST_HOTEL_LE_MERIDIEN,
+                Constants.CONST_HOTEL_GOLDEN_TULIP
+            };
+
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, "", "80", "110", null, null, null, "");
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);            
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_Hotels_From_Price_Sort_By_Name_ASC_Pass()
+        {
+            List<String> desiredResp = new List<String>
+            {
+                Constants.CONST_HOTEL_GOLDEN_TULIP,                
+                Constants.CONST_HOTEL_MEDIA_ONE,
+                Constants.CONST_HOTEL_NOVOTEL
+            };
+
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, "", "90", "", null, null, "ASC", null);
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_Hotels_By_Date_Range_Sort_By_Name_ASC_Sort_By_Price_DESC_Pass()
+        {
+            List<String> desiredResp = new List<String>
+            {
+                Constants.CONST_HOTEL_CONCORDE,
+                Constants.CONST_HOTEL_NOVOTEL               
+            };
+
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, null, null, null, "05-11-2020", "16-11-2020", "asc", "DESC");
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [Test(Description = Constants.CONST_CHECK_ALL_HOTELS)]
+        public void Get_Hotels_To_Date_Sort_By_Price_DESC_Pass()
+        {
+            List<String> desiredResp = new List<String>
+            {
+                Constants.CONST_HOTEL_NOVOTEL,
+                Constants.CONST_HOTEL_MEDIA_ONE,
+                Constants.CONST_HOTEL_LE_MERIDIEN,
+                Constants.CONST_HOTEL_ROTANA,
+                Constants.CONST_HOTEL_CONCORDE     
+            };
+
+            //Act 
+            ResponseHotel resp = hotelSearchService.SearchResultJson_Get(null, null, null, null, "", "10-12-2020", null, "desc");
+
+            List<String> hotelNames = new List<string>();
+            foreach (Hotel h in resp.Hotels)
+            {
+                hotelNames.Add(h.Name);
+            }
+
+            //Assert
+            CollectionAssert.AreEqual(desiredResp, hotelNames, Constants.CONST_CHECK_ALL_HOTELS);
+
+            iHotelSearchService.VerifyAllExpectations();
+        }
     }
 }
