@@ -53,8 +53,10 @@ namespace WcfHotelService.BAL.Business
                                                     , String.IsNullOrEmpty(requestHotel.SortByName) ? requestHotel.SortByName : requestHotel.SortByName
                                                     , String.IsNullOrEmpty(requestHotel.SortByPrice) ? requestHotel.SortByPrice : requestHotel.SortByPrice);
 
-                        // in case if it is desired to remove those availability records which do no meet requirements so un comment below lines
-                        // RemoveIrrelevantDataFromAvailability(lstHotel, dateFrom, dateTo);
+
+                        // in case it is not desired to remove irrelavant date entries from availability collection then comment below code and return list from above
+                        // simply pass date ranges and irrelevant entries will be removed
+                        RemoveIrrelevantDataFromAvailability(lstHotel, requestHotel.DateFrom, requestHotel.DateTo);
                     }
                     else
                     {

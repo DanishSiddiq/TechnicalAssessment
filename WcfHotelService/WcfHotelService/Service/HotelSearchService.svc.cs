@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.Remoting.Messaging;
+using System.ServiceModel.Channels;
 using WcfHotelService.BAL.Business;
 using WcfHotelService.Common;
 using WcfHotelService.Common.Entities;
@@ -246,11 +248,6 @@ namespace WcfHotelService.Service
             {
                 // calling business layer methos to perform all operations and just return result for hotels
                 return hotelBAL.SearchHotels(requestHotel);
-
-                // in case it is required to remove irrelavant date entries from nested availability collection then this method will do the job
-                // simply pass list of hotels into this methos with date ranges
-                //hotelBAL().RemoveIrrelevantDataFromAvailability
-
             }
             catch (CustomException ex)
             {
