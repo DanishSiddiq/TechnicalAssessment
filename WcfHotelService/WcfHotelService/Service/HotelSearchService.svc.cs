@@ -37,17 +37,11 @@ namespace WcfHotelService.Service
             iHotelSearchService = _hotelService;
         }
 
-
         /// <summary>
         /// This method wil return JSON and in case further operations are desired on result set it can be perfomrmed in this method before returning result
         /// </summary>
-        /// <param name="hotelName"></param>
-        /// <param name="destination"></param>
-        /// <param name="rangeFrom"></param>
-        /// <param name="rangeTo"></param>
-        /// <param name="dateFrom"></param>
-        /// <param name="dateTo"></param>
-        /// <returns></returns>        
+        /// <param name="requestHotel"></param>
+        /// <returns></returns>
         public ResponseHotel SearchResultJson(RequestHotel requestHotel) 
         {
             // in case in future further operations need to be performed on JSON data
@@ -84,13 +78,8 @@ namespace WcfHotelService.Service
         /// <summary>
         /// This method wil return JSON and in case further operations are desired on result set it can be perfomrmed in this method before returning result
         /// </summary>
-        /// <param name="hotelName"></param>
-        /// <param name="destination"></param>
-        /// <param name="rangeFrom"></param>
-        /// <param name="rangeTo"></param>
-        /// <param name="dateFrom"></param>
-        /// <param name="dateTo"></param>
-        /// <returns></returns>        
+        /// <param name="requestHotel"></param>
+        /// <returns></returns>
         public ResponseHotel SearchResultXML(RequestHotel requestHotel) 
         {
             // in case in future further operations need to be performed on XML data
@@ -128,16 +117,16 @@ namespace WcfHotelService.Service
         /// same logic as post but to serve as a purpose for rest call. 
         /// provide easines to call APi by any means
         /// </summary>
-        /// <param name="HotelName"></param>
-        /// <param name="Destination"></param>
-        /// <param name="RangeFrom"></param>
-        /// <param name="RangeTo"></param>
-        /// <param name="DateFrom"></param>
-        /// <param name="DateTo"></param>
-        /// <param name="SortByName"></param>
-        /// <param name="SortByPrice"></param>
+        /// <param name="hotelName"></param>
+        /// <param name="destination"></param>
+        /// <param name="rangeFrom"></param>
+        /// <param name="rangeTo"></param>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
+        /// <param name="sortByName"></param>
+        /// <param name="sortByPrice"></param>
         /// <returns></returns>
-        public ResponseHotel SearchResultJson_Get(String hotelName, String destination, String rangeFrom, String rangeTo, String dateFrom, String dateTo, String sortByName, String sortByPrice)
+        public ResponseHotel SearchResultJson_Get(String hotelName, String destination, String rangeFrom, String rangeTo, String dateFrom, String dateTo, String sortByName, String sortByPrice) 
         {
             // in case in future further operations need to be performed on XML data
             // Result should be sent with proper details in case of failures either error or validations
@@ -232,7 +221,7 @@ namespace WcfHotelService.Service
 
 
         /// <summary>
-        /// testing method that echo is working fine in wcf
+        /// testing method that echo/ping is working fine
         /// </summary>
         /// <param name="echoString"></param>
         /// <returns></returns>
@@ -286,6 +275,18 @@ namespace WcfHotelService.Service
             }
         }
 
+        /// <summary>
+        /// Transforming get parameters into object model to keep it in unified state to be later used by search method
+        /// </summary>
+        /// <param name="hotelName"></param>
+        /// <param name="destination"></param>
+        /// <param name="rangeFrom"></param>
+        /// <param name="rangeTo"></param>
+        /// <param name="dateFrom"></param>
+        /// <param name="dateTo"></param>
+        /// <param name="sortByName"></param>
+        /// <param name="sortByPrice"></param>
+        /// <returns></returns>
         private RequestHotel TransformGetValuestoRequestModel(String hotelName, String destination, String rangeFrom, String rangeTo, String dateFrom, String dateTo, String sortByName, String sortByPrice) 
         {
             RequestHotel requestHotel;
@@ -298,9 +299,9 @@ namespace WcfHotelService.Service
                     ,
                     Destination = String.IsNullOrEmpty(destination) ? null : Convert.ToString(destination).Trim()
                     ,
-                    RangeFrom = String.IsNullOrEmpty(rangeFrom) ? (Double?)null : Convert.ToDouble(rangeFrom)
+                    RangeFrom = String.IsNullOrEmpty(rangeFrom) ? (Double?)null : Math.Round(Convert.ToDouble(rangeFrom), 2)
                     ,
-                    RangeTo = String.IsNullOrEmpty(rangeTo) ? (Double?)null : Convert.ToDouble(rangeTo)
+                    RangeTo = String.IsNullOrEmpty(rangeTo) ? (Double?)null : Math.Round(Convert.ToDouble(rangeTo), 2)
                     ,
                     DateFrom = String.IsNullOrEmpty(dateFrom) ? (DateTime?)null : DateTime.ParseExact(dateFrom, "dd-MM-yyyy", CultureInfo.InvariantCulture)
                     ,

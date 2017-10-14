@@ -84,12 +84,12 @@ namespace WcfHotelService.Common
                                 {
                                     Name = Convert.ToString(hotel[Constants.CONST_HOTEL_NAME]),
                                     City = Convert.ToString(hotel[Constants.CONST_HOTEL_CITY]),
-                                    Price = float.Parse(Convert.ToString(hotel[Constants.CONST_HOTEL_PRICE])),
+                                    Price = Math.Round(float.Parse(Convert.ToString(hotel[Constants.CONST_HOTEL_PRICE])), 2),
                                     Availability = new List<Availability>()
                                 };
 
                                 JToken tokenAvailability = hotel[Constants.CONST_HOTEL_AVAILABILITY];
-                                if (tokenAvailability != null && tokenAvailability.Count() > 0)
+                                if (tokenAvailability != null && tokenAvailability.Any())
                                 {
                                     foreach (JToken availability in tokenAvailability)
                                     {

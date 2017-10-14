@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -184,22 +185,7 @@ namespace WcfHotelService.BAL.Business
                     }
                 }
 
-                // checking from date is valid date or not
-                if (!String.IsNullOrEmpty(dateFrom))
-                {
-                    if (!DateTime.TryParse(dateFrom, out dt))
-                    {
-                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
-                        lstCustomMessage.Add(new CustomMessage
-                        {
-                            Code = Constants.CONST_VALIDATION_DATE_FROM_NOT_VALID
-                         ,
-                            Message = Constants.CONST_VALIDATION_DATE_FROM_NOT_VALID_DESCRIPTION
-                        });
-                    }
-                }
-                
-                // checking from date is valid date or not
+                // checking from date is valid date in format of dd-MM-YYYY format
                 if (!String.IsNullOrEmpty(dateFrom))
                 {
                     if (!Regex.Match(dateFrom, Constants.CONST_REGEX_FOR_DD_MM_YYYY).Success)
@@ -207,29 +193,31 @@ namespace WcfHotelService.BAL.Business
                         lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
                         lstCustomMessage.Add(new CustomMessage
                         {
-                            Code = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID
-                         ,
+                            Code = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID,
                             Message = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID_DESCRIPTION
                         });
                     }
-                }
-
-                // checking from date is valid date or not
-                if (!String.IsNullOrEmpty(dateTo))
-                {
-                    if (!DateTime.TryParse(dateTo, out dt))
+                    else
                     {
-                        lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
-                        lstCustomMessage.Add(new CustomMessage
+                        // checking from date is valid date or not
+                        if (!String.IsNullOrEmpty(dateFrom))
                         {
-                            Code = Constants.CONST_VALIDATION_DATE_TO_NOT_VALID
-                         ,
-                            Message = Constants.CONST_VALIDATION_DATE_TO_NOT_VALID_DESCRIPTION
-                        });
+                            if (!DateTime.TryParseExact(dateFrom, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                            {                  
+                                
+                                lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
+                                lstCustomMessage.Add(new CustomMessage
+                                {
+                                    Code = Constants.CONST_VALIDATION_DATE_FROM_NOT_VALID
+                                    ,
+                                    Message = Constants.CONST_VALIDATION_DATE_FROM_NOT_VALID_DESCRIPTION
+                                });
+                            }
+                        }
                     }
                 }
-
-                // checking from date is valid date or not
+               
+                // checking to date is valid date in format of dd-MM-YYYY format
                 if (!String.IsNullOrEmpty(dateTo))
                 {
                     if (!Regex.Match(dateTo, Constants.CONST_REGEX_FOR_DD_MM_YYYY).Success)
@@ -237,13 +225,29 @@ namespace WcfHotelService.BAL.Business
                         lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
                         lstCustomMessage.Add(new CustomMessage
                         {
-                            Code = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID
-                         ,
+                            Code = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID,
                             Message = Constants.CONST_VALIDATION_DATE_FROM_FORMAT_NOT_VALID_DESCRIPTION
                         });
                     }
-                }
-
+                    else
+                    {
+                        // checking to date is valid date or not
+                        if (!String.IsNullOrEmpty(dateTo))
+                        {
+                            if (!DateTime.TryParseExact(dateTo, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                            {
+                                lstCustomMessage = lstCustomMessage.IsNull() ? new List<CustomMessage>() : lstCustomMessage;
+                                lstCustomMessage.Add(new CustomMessage
+                                {
+                                    Code = Constants.CONST_VALIDATION_DATE_TO_NOT_VALID
+                                    ,
+                                    Message = Constants.CONST_VALIDATION_DATE_TO_NOT_VALID_DESCRIPTION
+                                });
+                            }
+                        }
+                    }
+                }                
+               
                 if (!lstCustomMessage.IsNull())
                 {
                     // validation failed and all validation messages will later be transported to servcie class
