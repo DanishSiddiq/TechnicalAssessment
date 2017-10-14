@@ -95,9 +95,9 @@ namespace WcfHotelService.Common
         public const String CONST_API_NOT_ACCESSIBLE = "Error_1009";
         public const String CONST_API_NOT_ACCESSIBLE_DESCRIPTION = "API is not accessible.";
 
-        // General Internal Error
+        // General public Error
         public const String CONST_EXCEPTION_INTERNAL_ERROR = "Error_1010";
-        public const String CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION = "Internal error happens on server while processing request.";
+        public const String CONST_EXCEPTION_INTERNAL_ERROR_DESCRIPTION = "public error happens on server while processing request.";
 
         // Search Parameters are not defined properly
         public const String CONST_EXCEPTION_SEARCH_PARAMETERS_ERROR = "Error_1011";

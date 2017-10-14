@@ -16,6 +16,29 @@ namespace WcfHotelService.Service
     public class HotelSearchService : IHotelSearchService
     {
         /// <summary>
+        /// it will be helpful to achieve the dependency injection when we write tests for our unit in test class
+        /// </summary>
+        private static IHotelSearchService iHotelSearchService;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public HotelSearchService()
+        {
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="myIService"></param>
+        public HotelSearchService(IHotelSearchService _hotelService)
+        {
+            iHotelSearchService = _hotelService;
+        }
+
+
+        /// <summary>
         /// This method wil return JSON and in case further operations are desired on result set it can be perfomrmed in this method before returning result
         /// </summary>
         /// <param name="hotelName"></param>
