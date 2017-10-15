@@ -1,8 +1,5 @@
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\WcfHotelService.UnitTest.dll
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\WcfHotelService.UnitTest.pdb
-E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\obj\Debug\WcfHotelService.UnitTest.csprojResolveAssemblyReference.cache
-E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\obj\Debug\WcfHotelService.UnitTest.dll
-E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\obj\Debug\WcfHotelService.UnitTest.pdb
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\nunit.framework.dll
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\Rhino.Mocks.dll
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\WcfHotelService.Common.dll
@@ -13,4 +10,8 @@ E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\D
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\WcfHotelService.pdb
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\nunit.framework.xml
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\Rhino.Mocks.xml
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\Newtonsoft.Json.xml
 E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\bin\Debug\WcfHotelService.BAL.pdb
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\obj\Debug\WcfHotelService.UnitTest.csprojResolveAssemblyReference.cache
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\obj\Debug\WcfHotelService.UnitTest.dll
+E:\Danish\1\3\TechnicalAssessment\WcfHotelService\WcfHotelService.UnitTest\obj\Debug\WcfHotelService.UnitTest.pdb
