@@ -148,7 +148,7 @@ since metadata publishing is disabled.
 
 ####################################
 
-Assumptions & Inmplementation In Development:
+Assumptions in Development:
 ####################################
 1. All parameters are considered as optional based on user discretion to provide value or not in get & post calls
 
