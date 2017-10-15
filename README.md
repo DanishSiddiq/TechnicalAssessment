@@ -21,7 +21,6 @@ All API's are listed below:
 
 
 
-
 ##################
 Get API's:
 
@@ -53,6 +52,7 @@ Dates from API(https://api.myjson.com/bins/tl0bp) are in dd-mm-yyyy so kept in s
 Post API's and Data:
 
 ##################
+
 For JSON based Response:
 
 http://localhost:50311/Service/HotelSearchService.svc/result/search_json
@@ -95,7 +95,6 @@ Data for Post:
 
 
 Sample Raw Data:
-
 ============
 ===
 {
@@ -121,11 +120,9 @@ Sample Raw Data:
 
 
 
-##################
-
+####################################
 Debugging, Testing and Deployment:
-
-##################
+####################################
 1. Base address is mentioned above and definitely defined in web.config to work smoothly with out any hastle
 
 
@@ -148,11 +145,10 @@ since metadata publishing is disabled.
 
 
 
-##################
-
+####################################
 Assumptions & Inmplementation In Development:
 
-##################
+####################################
 1. All parameters are considered as optional based on user discretion to provide value or not in get & post calls
 
 
@@ -235,10 +231,10 @@ In case it is not desired then kinldy comment code in HotelBAL with name "Remove
 
 
 
-##################
+#########################
 Things not able to cover:
 
 ##################
-
+#######
 1. Travis and coverall not able to integrate as of limitation.
 
