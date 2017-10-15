@@ -94,7 +94,7 @@ Data for Post:
 
 
 
-Sample Raw Data:
+Sample Data:
 ============
 ===
 {
@@ -198,6 +198,8 @@ proper message that order fields are not defined correctly.
 
 
 
+
+
 ##################
 
 UNIT TEST PROJECT:
@@ -230,6 +232,7 @@ Deleting Data:
 ##################
 1. I have deleted irrelevant availability data from json. Keeping from and to date in availability array which are relevant to search paarmeters. 
 In case it is not desired then kinldy comment code in HotelBAL with name "RemoveIrrelevantDataFromAvailability" which will start returning all availability data
+
 
 
 
