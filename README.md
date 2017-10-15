@@ -22,9 +22,15 @@ All API's are listed below:
 
 
 ##################
-Get API's:
+
+
+
+
+Get API's and Data:
 
 ##################
+
+
 For JSON based Response
 :
 http://localhost:50311/Service/HotelSearchService.svc/result/get_json?name=&destination=&price_from=&price_to=&date_from=&date_to=&name_order=&price_order=
@@ -53,6 +59,7 @@ Post API's and Data:
 
 ##################
 
+
 For JSON based Response:
 
 http://localhost:50311/Service/HotelSearchService.svc/result/search_json
@@ -71,6 +78,7 @@ http://localhost:50311/Service/HotelSearchService.svc/result/search_xml
 Data for Post:
 
 ==============
+
 {
 
  "HotelName": "Anything" or null,
@@ -97,6 +105,7 @@ Data for Post:
 Sample Raw Data:
 ============
 ===
+
 {
 
  "HotelName": "hotel",
@@ -123,6 +132,7 @@ Sample Raw Data:
 ####################################
 Debugging, Testing and Deployment:
 ####################################
+
 1. Base address is mentioned above and definitely defined in web.config to work smoothly with out any hastle
 
 
@@ -149,6 +159,7 @@ since metadata publishing is disabled.
 Assumptions & Inmplementation In Development:
 
 ####################################
+
 1. All parameters are considered as optional based on user discretion to provide value or not in get & post calls
 
 
@@ -199,6 +210,7 @@ proper message that order fields are not defined correctly.
 UNIT TEST PROJECT:
 
 ##################
+
 1. NUnit is used for Unit Testing and RhinoFramwork is used for mocks. Both are added into test project from Nuget Manager. Information for packages also
  included in  project package file 
 
@@ -224,6 +236,7 @@ Validations error messages are not written in matrix file but test methods are c
 Deleting Data:
 
 ##################
+
 1. I have deleted irrelevant availability data from json. Keeping from and to date in availability array which are relevant to search paarmeters. 
 In case it is not desired then kinldy comment code in HotelBAL with name "RemoveIrrelevantDataFromAvailability" which will start returning all availability data
 
@@ -236,5 +249,6 @@ Things not able to cover:
 
 ##################
 #######
+
 1. Travis and coverall not able to integrate as of limitation.
 
