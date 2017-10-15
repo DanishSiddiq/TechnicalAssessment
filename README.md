@@ -149,7 +149,6 @@ since metadata publishing is disabled.
 ####################################
 
 Assumptions & Inmplementation In Development:
-
 ####################################
 1. All parameters are considered as optional based on user discretion to provide value or not in get & post calls
 
@@ -235,6 +234,7 @@ In case it is not desired then kinldy comment code in HotelBAL with name "Remove
 
 
 #########################
+
 Things not able to cover:
 
 ##################
