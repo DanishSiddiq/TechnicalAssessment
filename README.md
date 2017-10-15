@@ -243,7 +243,6 @@ In case it is not desired then kinldy comment code in HotelBAL with name "Remove
 
 
 
-
 #########################
 Things not able to cover:
 
